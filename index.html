@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Index Page</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons&style=outline" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?ver=1.1.5">
+
+
+</head>
+
+<body>
+  <div class="app" id="app">
+
+    <div class="loader-screen" v-show="isLoaderActive">
+      <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" aria-label="Example Progress Bar" aria-valuemin="1" aria-valuemax="100  " aria-valuenow="50">
+        <div class="mdc-linear-progress__buffer">
+          <div class="mdc-linear-progress__buffer-bar"></div>
+          <div class="mdc-linear-progress__buffer-dots"></div>
+        </div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+          <span class="mdc-linear-progress__bar-inner"></span>
+        </div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+          <span class="mdc-linear-progress__bar-inner"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-sidebar" id="app-sidebar" v-bind:class="{ hidden: isSidebarHidden}">
+      <aside class="mdc-drawer">
+        <div class="mdc-drawer__header">
+          <h3 class="mdc-drawer__title">Admin</h3>
+          <h6 class="mdc-drawer__subtitle">mirza@blixmark.com</h6>
+        </div>
+        <div class="mdc-drawer__content">
+          <nav class="mdc-list">
+            <a class="mdc-list-item mdc-list-item--activated" href="test.php" aria-current="page" @click="toggleLoader">
+              <span class="mdc-list-item__ripple"></span>
+              <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+              <span class="mdc-list-item__text">{{ pageTitles.home }}</span>
+            </a>
+            <!-- 
+              <hr class="mdc-list-divider">
+            <h6 class="mdc-list-group__subheader">Labels</h6>
+
+-->
+          </nav>
+        </div>
+      </aside>
+    </div>
+
+    <div class="app-main">
+        <header class="mdc-top-app-bar--fixed-adjust">
+          <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+              <button id="app-sidebar-toggle" @click="toggleSidebar" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+                aria-label="Open navigation menu">menu</button>
+              <span class="mdc-top-app-bar__title">{{ pageTitles.home }}</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+              <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+              aria-label="Notifications">notifications_none</button>
+              <button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+                aria-label="Account">person</button>
+              <button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+                aria-label="Settings">settings</button>
+            </section>
+          </div>
+        </header>
+
+
+
+      <main class="main-content" id="main-content">
+    
+
+        <div class="mdc-dialog mdc-dialog--open hidden">
+          <div class="mdc-dialog__container">
+            <div class="mdc-dialog__surface mdc-dialog-fornotications"
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="my-dialog-title"
+              aria-describedby="my-dialog-content">
+              <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+              <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+             -->Notifikacije<!--
+           --></h2>
+              <div class="mdc-dialog__content" id="my-dialog-content">
+                <ul class="mdc-list mdc-list--two-line">
+                  <li class="mdc-list-item" tabindex="0">
+                    <span class="mdc-list-item__ripple"></span>
+                    
+                    <span class="mdc-list-item__graphic">
+                      <span class="material-icons">
+                        notifications_active
+                        </span>
+                    </span>
+
+                    <span class="mdc-list-item__text">
+                      <span class="mdc-list-item__primary-text">Dobrodosli!</span>
+                      <span class="mdc-list-item__secondary-text"></span>
+                    </span>
+
+                    <span class="mdc-list-item__meta">
+                      <p>15:00</p>
+                    </span>
+                  </li>
+                </ul>
+
+
+
+
+              </div>
+            </div>
+          </div>
+          <div class="mdc-dialog__scrim"></div>
+        </div>
+
+
+      </main>
+
+
+    </div>
+  </div>
+
+  <script src="assets/js/app-vue.js"></script>
+  <!-- Required Material Web JavaScript library -->
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <!-- Instantiate single textfield component rendered in the document -->
+  <script>
+    mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+  </script>
+</body>
+
+</html>
