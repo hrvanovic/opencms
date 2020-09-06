@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons&style=outline" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?ver=1.2.3">
+
+  <script>
+    window.addEventListener('load', (event) => {
+      const app = document.getElementById("app");
+      app.style.display = "flex";
+    });
+  </script>
+</head>
+
+<body v-show="bodyVisibility">
+
+  <div class="app" id="app">
+    <div class="loader-screen" v-show="pageLoaderVisibility">
+      <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate"
+        aria-label="Example Progress Bar" aria-valuemin="1" aria-valuemax="100  " aria-valuenow="50">
+        <div class="mdc-linear-progress__buffer">
+          <div class="mdc-linear-progress__buffer-bar"></div>
+          <div class="mdc-linear-progress__buffer-dots"></div>
+        </div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+          <span class="mdc-linear-progress__bar-inner"></span>
+        </div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+          <span class="mdc-linear-progress__bar-inner"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-sidebar" id="app-sidebar" v-bind:class="{ hidden: sidebarVisibility}">
+      <aside class="mdc-drawer">
+        <div class="mdc-drawer__header">
+          <h3 class="mdc-drawer__title">Admin {{ windowWid }}</h3>
+          <h6 class="mdc-drawer__subtitle">mirza@blixmark.com</h6>
+        </div>
+        <div class="mdc-drawer__content">
+          <nav class="mdc-list">
+            <a class="mdc-list-item mdc-list-item--activated" href="test.php" aria-current="page" @click="toggleLoader">
+              <span class="mdc-list-item__ripple"></span>
+              <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+              <span class="mdc-list-item__text">{{ pageTitles.home }}</span>
+            </a>
+            <!-- 
+              <hr class="mdc-list-divider">
+            <h6 class="mdc-list-group__subheader">Labels</h6>
+
+-->
+          </nav>
+        </div>
+      </aside>
+    </div>
+
+    <div class="app-main">
+      <header class="mdc-top-app-bar--fixed-adjust">
+        <div class="mdc-top-app-bar__row">
+          <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+            <button id="app-sidebar-toggle" @click="toggleSidebar"
+              class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+              aria-label="Open navigation menu">menu</button>
+            <span class="mdc-top-app-bar__title">{{ pageTitles.home }}</span>
+          </section>
+          <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <button id="quicknotifi-toggle" @click="toggleQuickNotifi"
+              class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+              aria-label="Notifications">notifications_none</button>
+            <button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+              aria-label="Account">person</button>
+            <button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+              aria-label="Settings">settings</button>
+          </section>
+        </div>
+      </header>
+
+
+      <div class="mdc-dialog mdc-dialog--open" v-bind:class="{ hidden: quickNotifiVisibility}">
+        <div class="mdc-dialog__container">
+          <div class="mdc-dialog__surface mdc-dialog-fornotications" role="alertdialog" aria-modal="true"
+            aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+            <h2 class="mdc-dialog__title" id="my-dialog-title">
+              <!--
+             -->Notications
+              <!--
+           -->
+            </h2>
+            <div class="mdc-dialog__content" id="my-dialog-content">
+              <ul class="mdc-list mdc-list--two-line">
+                <li class="mdc-list-item" tabindex="0">
+                  <span class="mdc-list-item__ripple"></span>
+
+                  <span class="mdc-list-item__graphic">
+                    <img style="border-radius: 50%"
+                      src="https://avatars3.githubusercontent.com/u/68301043?s=460&u=2335cf8af3761e2d3c74eb87bc701bd04fabd8ae&v=4">
+                  </span>
+
+                  <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Zdravo Mirza!</span>
+                    <span class="mdc-list-item__secondary-text">ONET Vam zeli dobrodo...</span>
+                  </span>
+
+                  <span class="mdc-list-item__meta">
+                    <p>15:00</p>
+                  </span>
+                </li>
+
+                <li class="mdc-list-item" tabindex="0">
+                  <span class="mdc-list-item__ripple"></span>
+
+                  <span class="mdc-list-item__graphic">
+                    <span class="material-icons">
+                      account_circle
+                    </span>
+                  </span>
+
+                  <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Racun</span>
+                    <span class="mdc-list-item__secondary-text">Lozinka je promjenjena!</span>
+                  </span>
+
+                  <span class="mdc-list-item__meta">
+                    <p>17:41</p>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mdc-dialog__actions">
+              <button @click="toggleQuickNotifi" type="button" class="mdc-button mdc-dialog__button"
+                data-mdc-dialog-action="cancel">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">Close</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="mdc-dialog__scrim"></div>
+      </div>
+
+
+
+      <main class="main-content" id="main-content">
+
+        <div class="news-feed">
+
+          <div class="mdc-layout-grid">
+            <div class="mdc-layout-grid__inner">
+              <div class="mdc-layout-grid__cell">
+                <div class="mdc-card demo-card">
+                  <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">
+                    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"
+                      style="background-image: url(&quot;https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg&quot;);">
+                    </div>
+                    <div class="demo-card__primary">
+                      <h2 class="demo-card__title mdc-typography mdc-typography--headline6">API News V1</h2>
+                      <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">Mirza Retard</h3>
+                    </div>
+                    <div class="demo-card__secondary mdc-typography mdc-typography--body2">Lorem ipsum dolor sit amet,
+                      consectetur adipiscing elit, sed do eiusmod tempor...</div>
+                  </div>
+                  <div class="mdc-card__actions">
+                    <div class="mdc-card__action-icons">
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="Share" data-mdc-ripple-is-unbounded="true">share</button>
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="More options" data-mdc-ripple-is-unbounded="true">more_vert</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mdc-layout-grid__cell">
+                <div class="mdc-card demo-card">
+                  <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">
+                    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"
+                      style="background-image: url(&quot;https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg&quot;);">
+                    </div>
+                    <div class="demo-card__primary">
+                      <h2 class="demo-card__title mdc-typography mdc-typography--headline6">API News V2</h2>
+                      <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">by Ivica Konj</h3>
+                    </div>
+                    <div class="demo-card__secondary mdc-typography mdc-typography--body2">Lorem ipsum dolor sit amet,
+                      consectetur adipiscing elit, sed do eiusmod tempor...</div>
+                  </div>
+                  <div class="mdc-card__actions">
+                    <div class="mdc-card__action-icons">
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="Share" data-mdc-ripple-is-unbounded="true">share</button>
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="More options" data-mdc-ripple-is-unbounded="true">more_vert</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mdc-layout-grid__cell">
+                <div class="mdc-card demo-card">
+                  <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">
+                    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"
+                      style="background-image: url(&quot;https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg&quot;);">
+                    </div>
+                    <div class="demo-card__primary">
+                      <h2 class="demo-card__title mdc-typography mdc-typography--headline6">Our Changing Planet</h2>
+                      <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">by Kurt Wagner</h3>
+                    </div>
+                    <div class="demo-card__secondary mdc-typography mdc-typography--body2">Visit ten places on our
+                      planet that are undergoing the biggest changes today.</div>
+                  </div>
+                  <div class="mdc-card__actions">
+                    <div class="mdc-card__action-icons">
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="Share" data-mdc-ripple-is-unbounded="true">share</button>
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="More options" data-mdc-ripple-is-unbounded="true">more_vert</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="mdc-layout-grid__cell">
+                <div class="mdc-card demo-card">
+                  <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">
+                    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"
+                      style="background-image: url(&quot;https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg&quot;);">
+                    </div>
+                    <div class="demo-card__primary">
+                      <h2 class="demo-card__title mdc-typography mdc-typography--headline6">Our Changing Planet</h2>
+                      <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">by Kurt Wagner</h3>
+                    </div>
+                    <div class="demo-card__secondary mdc-typography mdc-typography--body2">Visit ten places on our
+                      planet that are undergoing the biggest changes today.</div>
+                  </div>
+                  <div class="mdc-card__actions">
+                    <div class="mdc-card__action-icons">
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="Share" data-mdc-ripple-is-unbounded="true">share</button>
+                      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded"
+                        title="More options" data-mdc-ripple-is-unbounded="true">more_vert</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+
+    </div>
+  </div>
+  <script src="assets/js/app-vue.js"></script>
+  <!-- Required Material Web JavaScript library -->
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+  <!-- Instantiate single textfield component rendered in the document -->
+  <script>
+    mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+  </script>
+</body>
+
+</html>
