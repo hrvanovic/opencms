@@ -1,0 +1,63 @@
+{
+    "links": [
+        {
+            "id": "style",
+            "file": "css/style.css?ver=1.0.1",
+            "rel": "stylesheet",
+            "position": "header"
+        },
+        {
+            "id": "login",
+            "file": "css/login.css?ver=1.0.1",
+            "rel": "stylesheet",
+            "position": "header"
+        },
+        {
+            "id": "home",
+            "file": "css/home.css",
+            "rel": "stylesheet",
+            "position": "header"
+        },
+        {
+            "id": "font/roboto",
+            "file": "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap",
+            "rel": "stylesheet",
+            "position": "header"
+        },
+        {
+            "id": "icons/material",
+            "file": "https://fonts.googleapis.com/icon?family=Material+Icons&style=outline",
+            "rel": "stylesheet",
+            "position": "header"
+        },
+        {
+            "id": "material",
+            "file": "https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css",
+            "rel": "stylesheet",
+            "position": "header"
+        }
+    ],  
+
+    "scripts": [
+        {
+            "id": "ajax-loader",
+            "file": "js/ajax-loader.js",
+            "position": "header"
+        },
+        {
+            "id": "app",
+            "file": "js/app.js",
+            "position": "footer"
+        },
+        {
+            "id": "jquery",
+            "file": "js/jquery.min.js",
+            "position": "header"
+        },
+        {
+            "id": "material",
+            "file": "js/material-components.min.js",
+            "position": "header"
+        }
+    ]
+}

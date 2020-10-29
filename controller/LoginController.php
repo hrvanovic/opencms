@@ -11,14 +11,14 @@ namespace controller;
 use \model as model;
 use \model\DatabaseModel as dbModel;
 
-class IndexController
+class LoginController
 {
     private $SiteInfo;
     private $Database;
     private $data;
     
     public function __construct() {
-       // global $core;
+        // global $core;
         // $core->callDatabaseModel();
     }
     
@@ -27,7 +27,7 @@ class IndexController
         global $core;
        
         $this->data = array(
-            "header" => "fixed",
+            "header" => null,
             "removeBody" => false,
             "pageInfo" => array(
                 "title" => "IndexPage",
@@ -36,19 +36,10 @@ class IndexController
                 "keywords" => null,
                 "featured-image" => "",
             ),
-            "links" => array("style", "font/roboto", "material", "icons/material", "home"),
+            "links" => array("style", "font/roboto", "material", "icons/material", "login"),
             "scripts" => array("jquery", "material", "app", "ajax-preloader")
         );
         
-        $core->pageRender("IndexView/index", $this->data);
-    }
-    
-
-    function part_dataTable()
-    {
-        global $core;
-        $core->disallowDirectPageAccess("url=index/part_dataTable/");
-        sleep(5);
-        $core->pageRender("IndexView/dataTable", array(), false, true);
+        $core->pageRender("Login/login-email", $this->data);
     }
 }

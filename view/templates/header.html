@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ page.pageInfo.title }}</title>
+	
+	{% for link in links.header %}
+	   <link rel="{{ link.rel }}" href="{{ link.file|pathFilter }}" />
+	{% endfor %}
+	
+	{% for script in scripts.header %}
+	   <script src="{{ script.file|pathFilter }}"></script>
+	{% endfor %}
+</head>
+
+<body>
+	<div class="app" id="app">
+
+		<div class="loader-screen">
+			<div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate"
+				aria-label="Example Progress Bar" aria-valuemin="1" aria-valuemax="100  " aria-valuenow="50">
+				<div class="mdc-linear-progress__buffer">
+					<div class="mdc-linear-progress__buffer-bar"></div>
+					<div class="mdc-linear-progress__buffer-dots"></div>
+				</div>
+				<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+					<span class="mdc-linear-progress__bar-inner"></span>
+				</div>
+				<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+					<span class="mdc-linear-progress__bar-inner"></span>
+				</div>
+			</div>
+		</div>
+
+
+        {% if page.header == "fixed" %}
+		<aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
+			<div class="mdc-drawer__header">
+				<h3 class="mdc-drawer__title">OpenCMS</h3>
+				<h6 class="mdc-drawer__subtitle">hrvanovic@blixmark.com</h6>
+			</div>
+			<div class="mdc-drawer__content">
+				<nav class="mdc-list">
+			
+					<a class="mdc-list-item mdc-list-item" href="{{ sideMenuItem.url }}" aria-current="page"
+						@click="toggleLoader"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+						<span class="mdc-list-item__text">Pocetna</span>
+					</a> 
+						<!-- 
+              <hr class="mdc-list-divider">
+            <h6 class="mdc-list-group__subheader">Labels</h6>
+
+-->
+				</nav>
+			</div>
+		</aside>
+
+		<header class="mdc-top-app-bar mdc-top-app-bar--fixed-adjust mdc-elevation--z6">
+			<div class="mdc-top-app-bar__row">
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+					<button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+						aria-label="Open navigation menu">menu</button>
+					<span class="mdc-top-app-bar__title">Naslovna</span>
+				</section>
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+					<button id="quicknotifi-toggle" @click="toggleTopBarNotifi"
+						class="material-icons mdc-top-app-bar__action-item mdc-icon-button mdc-top-app-bar__quickNotifi"
+						aria-label="Notifications">notifications_none
+					</button>
+			
+
+						<button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+						aria-label="Inbox">inbox</button>
+					<button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+						aria-label="Account">person</button>
+				</section>
+			</div>
+		</header>
+		
+		{% endif %}
+
+		<main class="main {% if page.header == null %}no-header{% endif %}" id="main">

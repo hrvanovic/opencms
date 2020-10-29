@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="/opencms/assets/js/preloader.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>{{ header.pageTitle }}</title>
+
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons&style=outline" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/opencms/style.css?ver=1.4.6">
+	
+</head>
+
+<body>
+	<div class="app" id="app">
+
+		<div class="loader-screen" v-show="pageLoaderVisibility">
+			<div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate"
+				aria-label="Example Progress Bar" aria-valuemin="1" aria-valuemax="100  " aria-valuenow="50">
+				<div class="mdc-linear-progress__buffer">
+					<div class="mdc-linear-progress__buffer-bar"></div>
+					<div class="mdc-linear-progress__buffer-dots"></div>
+				</div>
+				<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+					<span class="mdc-linear-progress__bar-inner"></span>
+				</div>
+				<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+					<span class="mdc-linear-progress__bar-inner"></span>
+				</div>
+			</div>
+		</div>
+
+		{% if header.visible == true %}
+		<aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
+			<div class="mdc-drawer__header">
+				<h3 class="mdc-drawer__title">{{ header.siteName }}</h3>
+				<h6 class="mdc-drawer__subtitle">{{ userInfo.userEmail }}</h6>
+			</div>
+			<div class="mdc-drawer__content">
+				<nav class="mdc-list">
+					{% for sideMenuItem in sidebarMenuItems %}
+					<a class="mdc-list-item mdc-list-item" href="{{ sideMenuItem.url }}" aria-current="page"
+						@click="toggleLoader"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">{{ sideMenuItem.icon }}</i>
+						<span class="mdc-list-item__text">{{ sideMenuItem.name }}</span>
+					</a> 
+					{% endfor %}
+					<!-- 
+              <hr class="mdc-list-divider">
+            <h6 class="mdc-list-group__subheader">Labels</h6>
+
+-->
+				</nav>
+			</div>
+		</aside>
+
+		<header class="mdc-top-app-bar mdc-top-app-bar--fixed-adjust mdc-elevation--z6">
+			<div class="mdc-top-app-bar__row">
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+					<button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+						aria-label="Open navigation menu">menu</button>
+					<span class="mdc-top-app-bar__title">{{ header.pageTitle }}</span>
+				</section>
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+					<button id="quicknotifi-toggle" @click="toggleTopBarNotifi"
+						class="mdc-top-app-bar__action-item mdc-icon-button mdc-top-app-bar__quickNotifi"
+						aria-label="Notifications">
+					<span class="material-icons">notifications_none</span>
+
+						<div class="mdc-menu mdc-menu-surface">
+							<ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+							  <li class="mdc-list-item" role="menuitem">
+								<span class="mdc-list-item__ripple"></span>
+								<span class="mdc-list-item__text">A Menu Item</span>
+							  </li>
+							  <li class="mdc-list-item" role="menuitem">
+								<span class="mdc-list-item__ripple"></span>
+								<span class="mdc-list-item__text">Another Menu Item</span>
+							  </li>
+							</ul>
+						  </div>
+					</button>
+			
+
+						<button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+						aria-label="Inbox">inbox</button>
+					<button @click="toggleLoader" class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+						aria-label="Account">person</button>
+				</section>
+			</div>
+		</header>
+
+
+		<div class="mdc-dialog mdc-dialog-quickNotifi">
+			<div class="mdc-dialog__container">
+				<div class="mdc-dialog__surface mdc-dialog-fornotications" role="alertdialog" aria-modal="true"
+					aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+					<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+					<h2 class="mdc-dialog__title" id="my-dialog-title">
+						<!--
+             -->
+						Notications
+						<!--
+           -->
+					</h2>
+					<div class="mdc-dialog__content" id="my-dialog-content">
+						<ul class="mdc-list mdc-list--two-line">
+							<li class="mdc-list-item" tabindex="0"><span class="mdc-list-item__ripple"></span> <span
+									class="mdc-list-item__graphic"> <img style="border-radius: 50%"
+										src="https://avatars3.githubusercontent.com/u/68301043?s=460&u=2335cf8af3761e2d3c74eb87bc701bd04fabd8ae&v=4">
+								</span> <span class="mdc-list-item__text"> <span
+										class="mdc-list-item__primary-text">Zdravo Mirza!</span> <span
+										class="mdc-list-item__secondary-text">ONET Vam zeli dobrodo...</span>
+								</span> <span class="mdc-list-item__meta"> 15:00 </span></li>
+
+							<li class="mdc-list-item" tabindex="0"><span class="mdc-list-item__ripple"></span> <span
+									class="mdc-list-item__graphic"> <span class="material-icons">
+										account_circle </span>
+								</span> <span class="mdc-list-item__text"> <span
+										class="mdc-list-item__primary-text">Racun</span> <span
+										class="mdc-list-item__secondary-text">Lozinka je promjenjena!</span>
+								</span> <span class="mdc-list-item__meta">
+									<p>17:41</p>
+								</span></li>
+						</ul>
+					</div>
+
+					<div class="mdc-dialog__actions">
+						<button @click="toggleTopBarNotifi" type="button" class="mdc-button mdc-dialog__button"
+							data-mdc-dialog-action="cancel">
+							<div class="mdc-button__ripple"></div>
+							<span class="mdc-button__label">Close</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="mdc-dialog__scrim"></div>
+		</div>
+
+		{% endif %}
+
+		<main class="main {% if header.visible == false %} no-header {% endif %}" id="main">
