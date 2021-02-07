@@ -4,11 +4,11 @@ namespace public_src;
 use Exception;
 use ParseError;
 
-define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR); // Definisi root fajl aplikacije.
+define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR); 
 if (! file_exists(ROOT . "hub/config.php") || ! file_exists(ROOT . "hub/Core.php"))
     die();
 
-require ROOT . "hub/config.php"; // Fajl sa izmjenjivim podacima.
+require ROOT . "hub/config.php";
 require ROOT . "hub/Core.php";
 
 // Startuj Aplikaciju. Sretno.
