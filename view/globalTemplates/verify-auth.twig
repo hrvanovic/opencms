@@ -1,0 +1,47 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="accountPageEdit page-content">
+        <div class="login">
+            <div class="login-box">
+                <div class="title">
+                    <h4>Dobro Dosli</h4>
+                    <h3>{{ page.user.u_email }}</h3>
+                </div>
+
+                <form action="{{ page.formAction }}" method="post">
+                    <div class="form-input">
+                        <p class="input-desc">Prije nastavka morate potvrditi da ste to vi</p>
+                        <label id="fieldPassword" class="mdc-text-field mdc-text-field--outlined">
+                            <input name="username" type="hidden" value="{{ page.email }}">
+                            <input name="password" type="password" class="mdc-text-field__input" aria-labelledby="my-label-id">
+                            <span class="mdc-notched-outline">
+                            <span class="mdc-notched-outline__leading"></span>
+                            <span class="mdc-notched-outline__notch">
+                                <span class="mdc-floating-label" id="my-label-id">Vasa Lozinka</span>
+                            </span>
+                            <span class="mdc-notched-outline__trailing"></span>
+                        </span>
+                        </label>
+                    </div>
+
+                    <div class="form-input form-button">
+                        <div class="mdc-touch-target-wrapper">
+                            <button class="mdc-button mdc-button--raised">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label">Dalje</span>
+                                <span class="mdc-button__touch"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'globalTemplates/scripts.twig' %}
+
+<script>
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldPassword"));
+</script>
+{% include 'globalTemplates/footer.twig' %}

@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * PHP version 7
@@ -14,44 +13,57 @@
  */
 
 namespace hub;
-
-use model\databases\MySQLiDatabase;
-use model\usermanager\userInfo;
+use controller\ErrorController;
+use model\databases\PDODatabase;
 use model\Sitemanager\SiteInfo;
+use controller\IndexController;
+use logs\SystemLog;
+use model\usermanager\UserAgent;
 use ParseError;
 use Exception;
 
 require ROOT . "hub/CoreInterface.php";
 
+error_reporting(E_ALL);
+ini_set("display_errors", "ON");
+
 class Core implements CoreInterface
 {
 
     private $callErrorNum = 0;
-    private $renderNum = 0;
-    
+
     public $database;
     public $siteInfo;
     public $userInfo;
 
-    // Page Render!
+    private $SystemLog;
+
+    /**
+     * Core konstruktor.
+     */
     public function __construct()
     {
         set_error_handler(array(
             $this,
             "error_handler"
         ));
-        
-        if(is_null($this->database)) {
-            $this->requireDatabase();
-            $this->database = new MySQLiDatabase;
-        }
-        
-        if(is_null($this->siteInfo)) {
+
+        if (is_null($this->siteInfo)) {
             $this->requireSiteInfo();
             $this->siteInfo = new SiteInfo($this->database);
         }
+
+        $this->requireModel("SystemLog");
     }
 
+    public function SystemLog() {
+        return $this->SystemLog;
+    }
+
+    public function getDB() {
+        $this->requireModel("databases/" . DB_TYPE . "Database");
+        return new PDODatabase();
+    }
 
     /**
      * Error handler. Funkcija kontrolise svaki error zasebno.
@@ -64,7 +76,8 @@ class Core implements CoreInterface
 
     public function error_handler($numberOfErrors, $string, $file, $onLine)
     {
-
+        echo $file . " " . $onLine . " " . $string;
+        $this->SystemLog::newLog($string);
         $this->callErrorController("error_505");
     }
 
@@ -78,7 +91,7 @@ class Core implements CoreInterface
     public function urlSpliter()
     {
         isset($_GET["url"]) ? $url = $_GET["url"] : $url = null;
-        if (! is_null($url)) {
+        if (!is_null($url)) {
             $tmp_url = trim($url, "/"); // Ukloni duplirane oznake /.
             $tmp_url = trim($tmp_url, ".php"); // Ukloni PHP Ektenziju.
             $tmp_url = filter_var($tmp_url, FILTER_SANITIZE_URL); // Ukloni zabranjene karaktere.
@@ -102,9 +115,9 @@ class Core implements CoreInterface
      */
     public function callErrorController($type)
     {
-        $this->callErrorNum ++;
-        require_once (ROOT_CONTROLLER_ERROR);
-        $Controller = new \controller\ErrorController();
+        $this->callErrorNum++;
+        require_once(ROOT_CONTROLLER_ERROR);
+        $Controller = new ErrorController();
         call_user_func(array(
             $Controller,
             $type
@@ -114,8 +127,8 @@ class Core implements CoreInterface
 
     private function callHomeController()
     {
-        require_once (ROOT_CONTROLLER_INDEX);
-        $Controller = new \controller\IndexController();
+        require_once(ROOT_CONTROLLER_INDEX);
+        $Controller = new IndexController();
         call_user_func(array(
             $Controller,
             "index"
@@ -129,7 +142,7 @@ class Core implements CoreInterface
     public function route()
     {
         $url = $this->urlSpliter();
-        if (is_array($url) && ! is_null($url["controller"])) {
+        if (is_array($url) && !is_null($url["controller"])) {
             $controller = $url["controller"];
             $controllernm = "controller\\" . $controller;
             if (file_exists(ROOT . "controller/" . $controller . ".php")) {
@@ -151,7 +164,7 @@ class Core implements CoreInterface
                     $this->callErrorController("error_404");
                 }
             } else {
-                $this->callErrorController("error_404");
+               $this->callErrorController("error_404");
             }
         } else {
 
@@ -162,52 +175,59 @@ class Core implements CoreInterface
     public function pageRender($file, $pageData = array())
     {
         require_once ROOT . 'vendor/autoload.php';
-        
-        if(empty($pageData["scripts"]))
+
+        if (empty($pageData["scripts"]))
             $pageData["scripts"] = array();
-        
-            if(empty($pageData["links"]))
-                $pageData["links"] = array();
-        
+
+        if (empty($pageData["links"]))
+            $pageData["links"] = array();
+
         $data = array(
             "site" => $this->siteInfo->returnInfo(),
+            "path" => array(
+              "img" => ROOT_APP . "/assets/img/"
+            ),
             "user" => $this->userInfo,
             "page" => $pageData,
             "scripts" => $this->getScripts("scripts", $pageData["scripts"]),
             "links" => $this->getScripts("links", $pageData["links"])
         );
-       
-        
+
+
         $loader = new \Twig\Loader\FilesystemLoader(ROOT_VIEW);
         $twig = new \Twig\Environment($loader);
-        
+
         $filter = new \Twig\TwigFilter('pathFilter', function ($string) {
-            if(filter_var($string, FILTER_VALIDATE_URL)) {
+            if (filter_var($string, FILTER_VALIDATE_URL)) {
                 return $string;
             } else {
                 return ROOT_APP . "assets/" . $string;
             }
         });
-        
-        $twig->addFilter($filter);
 
-        if(empty($pageData["removeBody"]))
-            $pageData["removeBody"] = false;
-        
-            if ($this->renderNum == 0 && (!$pageData["removeBody"]))
-            echo $twig->render("templates/header" . ".html", $data);
+        $userAvatarFilter = new \Twig\TwigFilter('userAvatar', function($string) {
+           return ROOT_APP . "data/user/avatar/" . $string;
+        });
+
+        $userAgentBrowserFilter = new \Twig\TwigFilter("userAgentToBrowser", function($string) {
+            return UserAgent::getBrowser($string);
+        });
+
+        $userAgentOSFilter = new \Twig\TwigFilter("userAgentToOS", function($string) {
+           return UserAgent::getOS($string);
+        });
+
+        $twig->addFilter($filter);
+        $twig->addFilter($userAvatarFilter);
+        $twig->addFilter($userAgentBrowserFilter);
+        $twig->addFilter($userAgentOSFilter);
 
         try {
 
-            echo $twig->render($file . ".html", $data);
+            echo $twig->render($file . ".twig", $data);
         } catch (ParseError $parse) {
-            require (ROOT_VIEW . "ErrorView/error_505" . ".php");
+            require(ROOT_VIEW . "Error/error_505" . ".php");
         }
-
-        if ($this->renderNum == 0 && ! $pageData["removeBody"])
-            echo $twig->render("templates/footer" . ".html", $data);
-
-        $this->renderNum ++;
     }
 
     public function getParams()
@@ -218,65 +238,66 @@ class Core implements CoreInterface
     public function disallowDirectPageAccess($query)
     {
         if ($query == $_SERVER["QUERY_STRING"]) {
-            $this->pageRender("ErrorView/error_505");
+            $this->pageRender("Error/error_505");
             exit(1);
         }
     }
-    /*
-     * public function callDatabaseModel() {
-     * require ROOT_MODEL . "DatabaseModel/" . DB_TYPE . "Database.php";
-     * $Database_Class = DB_TYPE . "Database";
-     * }
-     */
-    
-    
-    public function getScripts($type, $scripts = array()) {
-        file_exists(ROOT_ASSETS . "all.json") ? $router_file = ROOT_ASSETS . "all.json" : $router_file = null;
-        if($router_file != null && ($type == "scripts" || $type == "links")) {
+
+
+    public function getScripts($type, $scripts = array())
+    {
+        file_exists(ROOT_ASSETS . "scriptRegister.json") ? $router_file = ROOT_ASSETS . "scriptRegister.json" : $router_file = null;
+        if ($router_file != null && ($type == "scripts" || $type == "links")) {
             try {
                 $file_contents = file_get_contents($router_file);
                 $file_decode = json_decode($file_contents, true);
                 $all_scripts = $file_decode[$type];
-                
+
                 $inc_scripts["header"] = array();
                 $inc_scripts["footer"] = array();
                 $header_scripts = array();
                 $footer_scripts = array();
-                
-                foreach($scripts as $script) {
-                    foreach($all_scripts as $all_script) {
-                        if($script == $all_script["id"]) {
-                            if($all_script["position"] == "header") {
+
+                foreach ($scripts as $script) {
+                    foreach ($all_scripts as $all_script) {
+                        if ($script == $all_script["id"]) {
+                            if ($all_script["position"] == "header") {
                                 $header_scripts[] = $all_script;
-                            } else if($all_script["position"] == "footer") {
+                            } else if ($all_script["position"] == "footer") {
                                 $footer_scripts[] = $all_script;
                             }
-                        } 
-                    } 
+                        }
+                    }
                 }
                 $inc_scripts["header"] = $header_scripts;
                 $inc_scripts["footer"] = $footer_scripts;
                 return $inc_scripts;
-                
+
             } catch (Exception $e) {
-                
+
             }
-        } 
+        }
     }
-    
-    
-    public function requireModel($path)
+
+
+
+    public function requireModel(string $path)
     {
         require_once ROOT_MODEL . $path . ".php";
     }
 
-    public function requireDatabase()
+    public function requireMainController()
     {
-        $this->requireModel("databases/" . DB_TYPE . "Database");
+        require_once ROOT_CONTROLLER . "Controller.php";
     }
 
     public function requireSiteInfo()
     {
         $this->requireModel("/sitemanager/SiteInfo");
+    }
+
+    function redirectUser(string $url)
+    {
+        header("Location: " . ROOT_APP . $url);
     }
 }

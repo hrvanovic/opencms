@@ -1,0 +1,44 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="accountPageEdit page-content">
+        <div class="groups">
+            <div class="group medium-width">
+                <div class="group-title medium-padding">
+                    <h4>Promjena E-Maila</h4>
+                    <p>Ovaj E-Mail je vidljiv samo vama i Administratorima Blixmarka</p>
+                </div>
+
+
+                <div class="form">
+                    <form action="/opencms/account/post/updateEmail" method="post">
+                        <div class="form-field">
+                                <label id="fieldFirstName" class="mdc-text-field mdc-text-field--filled">
+                                    <span class="mdc-text-field__ripple"></span>
+                                    <span class="mdc-floating-label" id="my-label-id">E-Mail</span>
+                                    <input name="email" value="{{ page.user.basic.u_email }}" class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
+                                    <span class="mdc-line-ripple"></span>
+                                </label>
+                        </div>
+
+                        <div class="form-field">
+                            <button class="mdc-button mdc-button--raised"><span class="mdc-button__ripple"></span>
+                                Sacuvaj
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% include 'globalTemplates/scripts.twig' %}
+
+<script>
+    window.history.pushState('data', "asd", "/opencms/account/editemail");
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldFirstName"));
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldLastName"));
+</script>
+{% include 'globalTemplates/footer.twig' %}

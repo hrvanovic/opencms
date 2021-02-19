@@ -1,0 +1,8 @@
+{% include 'globalTemplates/snackbar.twig' %}
+{% for link in links.footer %}
+<link rel="{{ link.rel }}" href="{{ link.file|pathFilter }}" />
+{% endfor %}
+
+{% for script in scripts.footer %}
+<script src="{{ script.file|pathFilter }}"></script>
+{% endfor %}

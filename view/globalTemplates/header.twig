@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ page.pageInfo.title }}</title>
+
+	{% for link in links.header %}
+	   <link rel="{{ link.rel }}" href="{{ link.file|pathFilter }}" />
+	{% endfor %}
+
+	{% for script in scripts.header %}
+	   <script src="{{ script.file|pathFilter }}"></script>
+	{% endfor %}
+</head>
+
+<body>
+<div class="page-loader">
+	{% include 'globalTemplates/page-loader.twig' %}
+</div>
+
+	<div class="app" id="app">
+        {% if page.header != null %}
+
+		{% if page.header == "fixed" %}
+		<aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
+			<div class="mdc-drawer__header">
+				<h3 class="mdc-drawer__title">{{ site.site_name }}</h3>
+				<h6 class="mdc-drawer__subtitle">{{ page.user.basic.u_email }}</h6>
+			</div>
+			<div class="mdc-drawer__content">
+				<nav class="mdc-list">
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+						<span class="mdc-list-item__text">Pocetna</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">bar_chart</i>
+						<span class="mdc-list-item__text">Analitika</span>
+					</a>
+					<hr class="mdc-list-divider">
+					<h6 class="mdc-list-group__subheader">Artikal</h6>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">list</i>
+						<span class="mdc-list-item__text">Artikli</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">category</i>
+						<span class="mdc-list-item__text">Kategorije</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">filter_alt</i>
+						<span class="mdc-list-item__text">Filteri</span>
+					</a>
+					<hr class="mdc-list-divider">
+					<h6 class="mdc-list-group__subheader">Server</h6>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">dns</i>
+						<span class="mdc-list-item__text">Status</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">cloud_queue</i>
+						<span class="mdc-list-item__text">Pohrana</span>
+					</a>
+					<hr class="mdc-list-divider">
+					<h6 class="mdc-list-group__subheader">Korisnik</h6>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">account_circle</i>
+						<span class="mdc-list-item__text">Korisnici</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">admin_panel_settings</i>
+						<span class="mdc-list-item__text">Administacija</span>
+					</a>
+					<hr class="mdc-list-divider">
+					<h6 class="mdc-list-group__subheader">Uredivanje</h6>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">web</i>
+						<span class="mdc-list-item__text">Stranice</span>
+					</a>
+					<a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+							class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
+						<span class="mdc-list-item__text">Postavke</span>
+					</a>
+
+                    <hr class="mdc-list-divider">
+                    <a class="mdc-list-item mdc-list-item pageLoad" href="/opencms/account/logout" aria-current="page"> <span class="mdc-list-item__ripple"></span> <i
+                        class="material-icons mdc-list-item__graphic" aria-hidden="true">exit_to_app</i>
+                        <span class="mdc-list-item__text">Odjava</span>
+                    </a>
+					<!--
+          <hr class="mdc-list-divider">
+        <h6 class="mdc-list-group__subheader">Labels</h6>
+
+-->
+				</nav>
+			</div>
+		</aside>
+		{% endif %}
+
+		<header class="mdc-top-app-bar mdc-top-app-bar--fixed-adjust mdc-elevation--z6">
+			<div class="mdc-top-app-bar__row">
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+					{% if page.header == "fixed" %}
+					<button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+						aria-label="Open navigation menu">menu</button>
+					{% elseif page.header == "fixed-back" %}
+					<a href="{{ page.backURL }}">
+						<button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+								aria-label="Open navigation menu">keyboard_arrow_left</button>
+					</a>
+					{% endif %}
+					<a href="{{ page.backurl }}">
+						<span class="mdc-top-app-bar__title">{{ page.pageInfo.title }}</span>
+					</a>
+				</section>
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+					<button id="quicknotifi-toggle" @click="toggleTopBarNotifi"
+						class="material-icons mdc-top-app-bar__action-item mdc-icon-button mdc-top-app-bar__quickNotifi"
+						aria-label="Notifications">notifications_none
+					</button>
+
+					<a href="/opencms/account/">
+						<button class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
+								aria-label="Account">person</button>
+					</a>
+				</section>
+			</div>
+		</header>
+
+		{% endif %}
+
+		<main class="main {% if page.header != 'fixed' %} no-header {% endif %}" id="main">

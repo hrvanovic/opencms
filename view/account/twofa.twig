@@ -1,0 +1,28 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="accountPageEdit page-content">
+        <div class="groups">
+            <section class="group medium-width">
+                <div class="img-header">
+                    <img src="{{ path.img }}2fa.svg">
+                </div>
+                <div class="group-title medium-padding">
+                    <h4>Prijava u 2 koraka</h4>
+                    <p>Prilikom svake prijave na Blixmark račun morat ćete unijeti zaporku i kontrolni kôd.</p>
+                </div>
+
+                <div class="form">
+                    <a href="/opencms/account/twofa/create">
+                        <button class="mdc-button confirm-button mdc-button--raised">  <span class="mdc-button__ripple"></span> Nastavi</button>
+                    </a>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>
+
+{% include 'globalTemplates/scripts.twig' %}
+
+{% include 'globalTemplates/footer.twig' %}

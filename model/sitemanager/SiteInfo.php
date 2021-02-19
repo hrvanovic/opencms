@@ -1,13 +1,15 @@
 <?php
 
-namespace model\SiteManager;
+namespace model\sitemanager;
 
 class SiteInfo {
     public $info = array();
    
     public function __construct() {
-        $this->setInfo("site_name", "OpenCMS");
+        $this->setInfo("site_name", "Pik.ba");
         $this->setInfo("site_ef", "hahaha");
+
+        $this->setInfo("sidebarMenuItems", array());
     }
     
     public function getInfo($info) {

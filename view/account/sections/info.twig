@@ -1,0 +1,95 @@
+<div class="page-title style1">
+    <h4>Osobni podaci</h4>
+    <p>Osnovi podaci, kao sto su email, fotografija, kontakt informacije i sl.</p>
+</div>
+
+<div class="accountPage page-content">
+    <div class="groups account-info">
+        <div class="group">
+            <div class="group-title">
+                <h4>Osnovni podaci</h4>
+            </div>
+
+            <div class="group-list">
+                <div class="mdc-list-group">
+                    <ul class="mdc-list">
+
+                        <!--
+                        <a href="editname">
+                            <li class="mdc-list-item">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic"><p>Fotografija</p></span>
+                                <span class="mdc-list-item__text"></span>
+                                <span class="mdc-list-item__meta material-icons" aria-hidden="true"></span>
+                            </li>
+                        </a>
+                        -->
+
+                        <a href="/opencms/account/editname">
+                            <li class="mdc-list-item">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic"><p>Naziv</p></span>
+                                <span class="mdc-list-item__text">{{ page.user.basic.u_firstname }} {{ page.user.basic.u_lastname }}</span>
+                                <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+
+                            </li>
+                        </a>
+
+                        <a href="/opencms/account/editemail">
+                            <li class="mdc-list-item">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic"><p>E-Mail</p></span>
+                                <span class="mdc-list-item__text">{{ page.user.basic.u_email }}</span>
+                                <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                            </li>
+                        </a>
+
+                        <a href="/opencms/account/editphone">
+                            <li class="mdc-list-item">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic"><p>Telefon</p></span>
+                                {% if page.user.basic.u_phone == null %}
+                                <span class="mdc-list-item__text">Nema</span>
+                                {% else %}
+                                <span class="mdc-list-item__text">{{ page.user.basic.u_phone }}</span>
+                                {% endif %}
+                                <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+<!--
+        <div class="group">
+            <div class="group-title">
+                <h4>Podaci za kontakt</h4>
+            </div>
+
+            <div class="group-list">
+                <div class="mdc-list-group">
+                    <ul class="mdc-list">
+
+                        <li class="mdc-list-item">
+                            <span class="mdc-list-item__ripple"></span>
+                            <span class="mdc-list-item__graphic"><p>E-Mail</p></span>
+                            <span class="mdc-list-item__text">
+                                {% for email in page.contact.email %}
+                                {{ email.0 }}
+                                {% endfor %}
+                            </span>
+                            <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                        </li>
+
+                        <li class="mdc-list-item">
+                            <span class="mdc-list-item__ripple"></span>
+                            <span class="mdc-list-item__graphic"><p>Telefon</p></span>
+                            <span class="mdc-list-item__text">3 telefona su aktivna</span>
+                            <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

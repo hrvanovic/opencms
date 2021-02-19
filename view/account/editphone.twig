@@ -1,0 +1,45 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="accountPageEdit page-content">
+        <div class="groups">
+            <div class="group medium-width">
+                <div class="group-title medium-padding">
+                    <h4>Promjena Broja Telefona</h4>
+                    <p>Ovaj Broj telefone je vidljiv samo vama i administratorima Blixmarka.</p>
+                </div>
+
+
+                <div class="form">
+                    <form action="/opencms/account/post/updatePhone" method="post">
+                        <div class="form-field">
+
+                                <label id="fieldFirstName" class="mdc-text-field mdc-text-field--filled">
+                                    <span class="mdc-text-field__ripple"></span>
+                                    <span class="mdc-floating-label" id="my-label-id">Broj Telefona</span>
+                                    <input name="phone" value="{{ page.user.basic.u_phone }}" class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
+                                    <span class="mdc-line-ripple"></span>
+                                </label>
+
+                        </div>
+
+                        <div class="form-field">
+                            <button class="mdc-button mdc-button--raised"><span class="mdc-button__ripple"></span>
+                                Sacuvaj
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% include 'globalTemplates/scripts.twig' %}
+
+<script>
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldFirstName"));
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldLastName"));
+</script>
+{% include 'globalTemplates/footer.twig' %}

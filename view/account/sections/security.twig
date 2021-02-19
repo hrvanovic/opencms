@@ -1,0 +1,72 @@
+<div class="page-title style1">
+    <h4>Sigurnost</h4>
+    <p>Podesavanja i preporuke za zastitu Vaseg racuna</p>
+</div>
+
+<div class="accountPage page-content">
+    <div class="groups account-info">
+        <div class="group">
+            <div class="group-title">
+                <h4>Autentifikacija</h4>
+            </div>
+
+            <div class="group-list">
+                <div class="mdc-list-group">
+                    <ul class="mdc-list">
+
+                   <a href="/opencms/account/editpassword">
+                       <li class="mdc-list-item">
+                           <span class="mdc-list-item__ripple"></span>
+                           <span class="mdc-list-item__graphic"><p>Lozinka</p></span>
+                           <span class="mdc-list-item__text">*******</span>
+                           <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                       </li>
+                   </a>
+
+                        <a href="/opencms/account/twofa/">
+                            <li class="mdc-list-item">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic"><p>2FA</p></span>
+                                {% if page.user.twofa.fa_status == 1 %}
+                                <span class="mdc-list-item__text">Ukljuceno</span>
+                                {% else %}
+                                <span class="mdc-list-item__text">Iskljuceno</span>
+                                {% endif %}
+                                <span class="mdc-list-item__meta material-icons" aria-hidden="true">navigate_next</span>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="group-title">
+                <h4>Vasi uredaji</h4>
+            </div>
+
+            <div class="group-list">
+                <div class="mdc-list-group">
+                    <ul class="mdc-list">
+
+                        {% for session in page.user.sessions %}
+                        <li class="mdc-list-item">
+                            {% if session.s_agent|userAgentToOS == "Android" %}
+                                <span class="mdc-list-item__graphic material-icons" aria-hidden="true">ad_units</span>
+                            {% else %}
+                                <span class="mdc-list-item__graphic material-icons" aria-hidden="true">laptop</span>
+                            {% endif %}
+                            <span class="mdc-list-item__text">
+                                <span class="mdc-list-item__primary-text">{{ session.s_agent|userAgentToBrowser }} na {{ session.s_agent|userAgentToOS }}</span>
+                                <span class="mdc-list-item__secondary-text">Bosna i Hercegovina u blizini Mostara</span>
+                            </span>
+                            <span class="mdc-list-item__meta material-icons" aria-hidden="true">more_vert</span>
+
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

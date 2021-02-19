@@ -1,0 +1,13 @@
+{%if page.snackbar != null %}
+<div class="mdc-snackbar">
+    <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+        <div class="mdc-snackbar__label" aria-atomic="false">
+            {{ page.snackbar }}
+        </div>
+    </div>
+</div>
+
+    <script>
+        snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar")).open();
+    </script>
+{% endif %}

@@ -1,0 +1,16 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="home">
+        {% if page.ajax.welcome != null %}
+        <div class="welcome">
+
+        </div>
+
+        <script>
+            getTemplatePart(".welcome", "{{ page.ajax.welcome }}")
+        </script>
+        {% endif %}
+    </div>
+</div>
+{% include 'globalTemplates/scripts.twig' %}
+{% include 'globalTemplates/footer.twig' %}

@@ -8,47 +8,54 @@
 
 namespace controller;
 
-use \model as model;
-use \model\DatabaseModel as dbModel;
+global $core;
+$core->requireMainController();
 
-class IndexController
+class IndexController extends Controller
 {
-    private $SiteInfo;
-    private $Database;
-    private $data;
-    
     public function __construct() {
-       // global $core;
-        // $core->callDatabaseModel();
+        global $core;
+        parent::__construct();
+
+        if($this->isLogged() == 0)
+            $core->redirectUser("login");
     }
     
     function index()
     {
         global $core;
-       
+
         $this->data = array(
             "header" => "fixed",
-            "removeBody" => false,
             "pageInfo" => array(
-                "title" => "IndexPage",
+                "title" => "Welcome",
                 "desc" => "Welcome",
                 "author" => null,
                 "keywords" => null,
                 "featured-image" => "",
             ),
-            "links" => array("style", "font/roboto", "material", "icons/material", "home"),
-            "scripts" => array("jquery", "material", "app", "ajax-preloader")
+            "user" => $this->userInfo,
+            "ajax" => array("welcome" => ROOT_APP . "/index/pageTemplate/welcome"),
+            "links" => array("material", "font/roboto", "style", "icons/material", "home"),
+            "scripts" => array("jquery", "material", "app", "ajax-loader")
         );
-        
-        $core->pageRender("IndexView/index", $this->data);
-    }
-    
 
-    function part_dataTable()
-    {
+        $core->pageRender("Index/index", $this->data);
+    }
+
+    function pageTemplate() {
         global $core;
-        $core->disallowDirectPageAccess("url=index/part_dataTable/");
-        sleep(5);
-        $core->pageRender("IndexView/dataTable", array(), false, true);
+
+        if(isset($core->getParams()["urlParams"][0]) && $core->getParams()["urlParams"][0] == "welcome") {
+            // $core->disallowDirectPageAccess("url=index/pageTemplate/welcome");
+            $this->data = array(
+                "header" => "fixed",
+                "pageInfo" => NULL,
+                "user" => $this->userInfo,
+                "links" => NULL,
+                "scripts" => NULL
+            );
+            $core->pageRender("Index/welcome", $this->data);
+        }
     }
 }

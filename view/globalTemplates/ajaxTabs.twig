@@ -1,0 +1,42 @@
+<div class="mdc-tab-bar" role="tablist">
+    <div class="mdc-tab-scroller">
+        <div class="mdc-tab-scroller__scroll-area mdc-tab-scroller__scroll-area--scroll"
+             style="margin-bottom: -17px;">
+            <div class="mdc-tab-scroller__scroll-content">
+                {% set tabCount = -1 %}
+                {% for tab in page.ajaxTabs.list %}
+                <button onclick="activateAjaxTab('{{ tab.id }}', '{{ tab.url }}')" class="mdc-tab" role="tab" aria-selected="true"
+                        tabindex="{{ tab.id }}">
+                            <span class="mdc-tab__content">
+                                <span class="mdc-tab__icon material-icons" aria-hidden="true">{{ tab.icon }}</span>
+                                <span class="mdc-tab__text-label">{{ tab.title }}</span>
+                            </span>
+
+                    <span class="mdc-tab-indicator">
+                                <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                            </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+
+                {% set tabCount = tabCount + 1 %}
+                {%if page.ajaxTabs.current == tab.id %}
+                <script>
+                    $(document).ready(function() {
+                        activateAjaxTab('{{ tabCount }}', '{{ tab.url }}');
+                    });
+                </script>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if page.ajaxTabs.current == 'null' %}
+<script>
+    $(document).ready(function() {
+        activateAjaxTab(0,  "{{  page.ajaxTabs.defaultURL }}");
+    });
+</script>
+{% endif %}

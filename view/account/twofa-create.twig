@@ -1,0 +1,123 @@
+{% include 'globalTemplates/header.twig' %}
+<div class="main-content" id="main-content">
+    <div class="accountPageEdit page-content">
+        <div class="groups">
+            <section class="group medium-width">
+                <div class="img-header">
+                    <img src="{{ path.img }}2fa.svg">
+                </div>
+                <div class="group-title medium-padding">
+                    <h4>Postavite prijavu u 2 koraka</h4>
+                </div>
+
+                <div class="form">
+                    <form action="{{ page.post }}" method="post">
+                        <input type="hidden" name="verifytwofa" value="">
+                        <div class="fa-instruction-apps">
+                            <h4>Instalacija Aplikacije</h4>
+                            <p>Instalirajte neke od sljedecih aplikacija: </p>
+                            <ul>
+                                {% for app in page.twofa_apps %}
+                                <li>
+                                    <a href="{{ app.url }}" target="_blank">
+                                        {{ app.title }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="fa-instruction-data">
+                            <h4>Postavite aplikaciju</h4>
+                            <p>Otvorite Vasu aplikaciju i skenirajte QR kod, ili ukucajte kod manuelno.</p>
+                            <p>Sigurnosni kod: {{ page.twofa.code }}</p>
+                            <div class="qrcode">
+                                <img alt="img" src="http://chart.apis.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/blixmark::{{ page.user.u_email }}%3Fsecret%3D{{ page.twofa.code }}">
+
+                                <script>
+                                    var imageData = UrlFetchApp.fetch('https://chart.googleapis.com/chart', {
+                                        'method' : 'post',
+                                        'payload' : {
+                                            'cht': 'qr',
+                                            'chl': 'https://google.com',
+                                            'chs': '300x300'
+                                        }}).getContent();
+                                </script>
+                            </div>
+                        </div>
+
+
+                        <div class="fa-instruction-recovery">
+                            <h4>Rezervni Kodovi</h4>
+                            <p><a onclick="mdcDialogRecovery.open()" href="#recoverycodes">Prikazite</a> sigurnosne kodove.</p>
+                        </div>
+
+                        <div class="fa-instruction-verify">
+                            <h4>Verifikujte postavke</h4>
+                            <p>Otvorite Vasu aplikaciju i skenirajte QR kod, ili ukucajte kod manuelno.</p>
+                        </div>
+                        <div class="form-input left-align">
+                            <div id="fieldSecCode"
+                                 class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
+                                <i class="material-icons mdc-text-field__icon">dialpad</i>
+                                <input name="code" class="mdc-text-field__input" id="text-field-hero-input">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="text-field-hero-input" class="mdc-floating-label">Sigurnosni
+                                            Kod</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-field positive-button">
+                            <a href="/opencms/account/twofa/create">
+                                <button class="mdc-button confirm-button mdc-button--raised"><span
+                                    class="mdc-button__ripple"></span> Nastavi
+                                </button>
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="dialogRecoveryCodes" class="mdc-dialog mdc-dialog--scrollable" role="alertdialog"
+     aria-modal="true" aria-labelledby="mdc-dialog-with-list-label" aria-describedby="mdc-dialog-with-list-description">
+    <div class="mdc-dialog__scrim"></div>
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface"><h2 id="mdc-dialog-with-list-label" class="mdc-dialog__title">
+            Sigurnosni Kodovi za oporavak</h2>
+            <section id="mdc-dialog-with-list-description" class="mdc-dialog__content"><p></p>
+                <p>Ukoliko izgubite pristup aplikaciji za prijavu u 2 koraka, imate mogucnost da pristupite Vasem racunu
+                putem sigurnosnih kodova za oporavak. Molimo da kopirate i sacuvate sigurnosne kodove za oporavak na Vas racunar.</p>
+                <h4>Sigurnosni Kodovi</h4>
+                <ul>
+                    {% for code in page.twofa.recovery %}
+                    <li>{{ code }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <footer class="mdc-dialog__actions">
+                <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded"
+                        data-mdc-dialog-action="accept">Razumijem
+                </button>
+            </footer>
+        </div>
+    </div>
+</div>
+
+
+{% include 'globalTemplates/scripts.twig' %}
+<script>
+    const mdcDialogRecovery = mdc.dialog.MDCDialog.attachTo(document.getElementById("dialogRecoveryCodes"));
+    mdc.textField.MDCTextField.attachTo(document.getElementById("fieldSecCode"));
+</script>
+{% include 'globalTemplates/footer.twig' %}

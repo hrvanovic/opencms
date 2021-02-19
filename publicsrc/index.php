@@ -1,25 +1,25 @@
 <?php
+
 namespace public_src;
 
 use Exception;
 use ParseError;
+use hub\Core;
 
-define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR); 
-if (! file_exists(ROOT . "hub/config.php") || ! file_exists(ROOT . "hub/Core.php"))
+define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR); // Definisi root fajl aplikacije.
+if (!file_exists(ROOT . "hub/config.php") || !file_exists(ROOT . "hub/Core.php"))
     die();
 
-require ROOT . "hub/config.php";
+require ROOT . "hub/config.php"; // Fajl sa izmjenjivim podacima.
 require ROOT . "hub/Core.php";
 
 // Startuj Aplikaciju. Sretno.
-$core = new \hub\Core();
 
 try {
+    $core = new Core;
     $core->route();
+
 } catch (ParseError $parseErr) {
-    $core->error_handler($parseErr->getCode(), $parseErr->getMessage(), $parseErr->getFile(), $parseErr->getLine());
-    die();
-} catch (Exception $e) {
-    $core->error_handler($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+    echo "Dogodila se greska!";
     die();
 }
